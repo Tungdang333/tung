@@ -1,101 +1,171 @@
 body {
     font-family: 'Mochiy Pop P One', cursive;
-    background-color: #f7e1f7; /* Màu nền hồng nhạt */
+    background-color: #f7e1f7;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    color: #4b3d4f; /* Màu chữ tím sẫm */
-    background-image: url('https://i.ibb.co/F4s1w4w/kawaii-background.png'); /* Thay bằng ảnh nền kawaii khác nếu muốn */
+    color: #4b3d4f;
+    background-image: url('https://i.ibb.co/F4s1w4w/kawaii-background.png');
     background-size: cover;
     background-position: center;
+    overflow-x: hidden; /* Ngăn cuộn ngang */
 }
 
 .container {
     padding: 20px;
+    z-index: 2; /* Đảm bảo nội dung nằm trên pháo hoa */
+    position: relative;
 }
 
 .card {
-    background-color: rgba(255, 255, 255, 0.85); /* Nền trắng hơi trong suốt */
+    background-color: rgba(255, 255, 255, 0.85);
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     text-align: center;
-    border: 3px solid #ffb6c1; /* Viền hồng nhạt */
-    animation: bounceIn 1s ease-out; /* Hiệu ứng động khi load trang */
+    border: 3px solid #ffb6c1;
+    animation: bounceIn 1s ease-out;
 }
 
-@keyframes bounceIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
+/* Các đoạn CSS khác giữ nguyên */
 .profile-header {
-    border-bottom: 2px dashed #ffb6c1; /* Đường kẻ ngang nét đứt */
+    border-bottom: 2px dashed #ffb6c1;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
-
 .profile-avatar {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 5px solid #ffc0cb; /* Viền avatar màu hồng pastel */
+    border: 5px solid #ffc0cb;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
 }
-
 .profile-avatar:hover {
-    transform: scale(1.1) rotate(5deg); /* Hiệu ứng khi rê chuột vào */
+    transform: scale(1.1) rotate(5deg);
 }
-
 .profile-name {
     font-size: 2.5em;
-    color: #ff69b4; /* Tên màu hồng đậm */
+    color: #ff69b4;
     margin: 15px 0 5px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
-
 .profile-bio {
     font-family: Arial, sans-serif;
     font-size: 1.1em;
-    color: #6a5acd; /* Màu tím nhạt */
+    color: #6a5acd;
     line-height: 1.5;
 }
-
 h2 {
     color: #ff69b4;
     font-size: 1.8em;
     margin-top: 25px;
 }
-
 ul {
-    list-style-type: '🌸 '; /* Ký tự đầu dòng là hoa anh đào */
+    list-style-type: '🌸 ';
     padding-left: 20px;
     text-align: left;
     display: inline-block;
 }
-
 li {
     margin-bottom: 10px;
 }
-
 .social-links {
     margin-top: 20px;
     display: flex;
     justify-content: center;
     gap: 20px;
 }
-
 .social-icon {
     width: 45px;
     height: 45px;
     transition: transform 0.2s ease-in-out;
 }
-
 .social-icon:hover {
-    transform: scale(1.2); /* Hiệu ứng khi rê chuột vào icon */
+    transform: scale(1.2);
+}
+
+/* Hiệu ứng pháo hoa */
+.fireworks-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Cho phép tương tác với các thành phần bên dưới */
+    z-index: 1;
+}
+
+.fireworks-container::before,
+.fireworks-container::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #ffd700;
+    border-radius: 50%;
+    opacity: 0;
+    animation: fireworks 5s infinite;
+}
+
+.fireworks-container::before {
+    left: 20%;
+    top: 10%;
+    animation-delay: 1s;
+}
+
+.fireworks-container::after {
+    right: 30%;
+    top: 15%;
+    animation-delay: 3s;
+    background-color: #ff69b4;
+}
+
+@keyframes fireworks {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 rgba(255, 255, 255, 0.8);
+    }
+    100% {
+        transform: translateY(-200px) scale(2);
+        opacity: 0;
+        box-shadow: 0 0 50px rgba(255, 255, 255, 0);
+    }
+}
+
+/* Các em loli nhảy múa */
+.loli-dancing {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
+
+.loli-char {
+    width: 100px;
+    height: auto;
+    position: relative;
+    animation: dance 1s infinite alternate; /* Hiệu ứng nhảy lên xuống */
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.2));
+}
+
+.loli-1 {
+    animation-delay: 0s;
+}
+.loli-2 {
+    animation-delay: 0.2s;
+}
+.loli-3 {
+    animation-delay: 0.4s;
+}
+
+@keyframes dance {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-10px) rotate(3deg); }
 }
