@@ -1,0 +1,101 @@
+body {
+    font-family: 'Mochiy Pop P One', cursive;
+    background-color: #f7e1f7; /* Màu nền hồng nhạt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #4b3d4f; /* Màu chữ tím sẫm */
+    background-image: url('https://i.ibb.co/F4s1w4w/kawaii-background.png'); /* Thay bằng ảnh nền kawaii khác nếu muốn */
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.85); /* Nền trắng hơi trong suốt */
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    text-align: center;
+    border: 3px solid #ffb6c1; /* Viền hồng nhạt */
+    animation: bounceIn 1s ease-out; /* Hiệu ứng động khi load trang */
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.profile-header {
+    border-bottom: 2px dashed #ffb6c1; /* Đường kẻ ngang nét đứt */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #ffc0cb; /* Viền avatar màu hồng pastel */
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.1) rotate(5deg); /* Hiệu ứng khi rê chuột vào */
+}
+
+.profile-name {
+    font-size: 2.5em;
+    color: #ff69b4; /* Tên màu hồng đậm */
+    margin: 15px 0 5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-bio {
+    font-family: Arial, sans-serif;
+    font-size: 1.1em;
+    color: #6a5acd; /* Màu tím nhạt */
+    line-height: 1.5;
+}
+
+h2 {
+    color: #ff69b4;
+    font-size: 1.8em;
+    margin-top: 25px;
+}
+
+ul {
+    list-style-type: '🌸 '; /* Ký tự đầu dòng là hoa anh đào */
+    padding-left: 20px;
+    text-align: left;
+    display: inline-block;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.social-links {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.social-icon:hover {
+    transform: scale(1.2); /* Hiệu ứng khi rê chuột vào icon */
+}
