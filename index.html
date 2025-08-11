@@ -8,7 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="fireworks-container"></div>
+    <canvas class="fireworks-container"></canvas>
+
+    <!-- Nhạc nền -->
+    <audio id="bg-music" loop>
+        <source src="https://files.catbox.moe/zs8g9k.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Nút bật/tắt nhạc -->
+    <button id="music-toggle">🎵 Bật nhạc</button>
 
     <div class="container">
         <div class="card">
@@ -27,9 +35,9 @@
                 </ul>
             </div>
             <div class="loli-dancing">
-                <img src="https://i.ibb.co/2c1qM35/loli-1.png" alt="Loli 1" class="loli-char loli-1">
-                <img src="https://i.ibb.co/L5196r7/loli-2.png" alt="Loli 2" class="loli-char loli-2">
-                <img src="https://i.ibb.co/7z4hYjR/loli-3.png" alt="Loli 3" class="loli-char loli-3">
+                <img src="https://i.ibb.co/2c1qM35/loli-1.png" alt="Loli 1" class="loli-char">
+                <img src="https://i.ibb.co/L5196r7/loli-2.png" alt="Loli 2" class="loli-char">
+                <img src="https://i.ibb.co/7z4hYjR/loli-3.png" alt="Loli 3" class="loli-char">
             </div>
             <div class="profile-body">
                 <h2>✨ Liên hệ với mình</h2>
@@ -47,5 +55,7 @@
             </div>
         </div>
     </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
