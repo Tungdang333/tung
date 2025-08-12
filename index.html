@@ -3,49 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giới thiệu bản thân Kawaii!</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&display=swap" rel="stylesheet">
+    <title>Bài ôn tập Toán lớp 5 tương tác</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is structured into two main interactive sections: "Luyện tập Trắc nghiệm" (Multiple Choice Practice) and "Thử sức với Tự luận" (Free Response Challenge). This thematic division transforms the static test into a task-oriented learning tool. The multiple-choice section provides immediate feedback and a performance chart to encourage quick knowledge checks. The free-response section allows users to attempt problems first and then view detailed solutions, fostering deeper understanding. This structure was chosen for its interactivity and pedagogical value over a simple digital representation of the test. -->
+    <!-- Visualization & Content Choices: 
+        - Multiple Choice Questions -> Goal: Assess knowledge & provide instant feedback -> Method: Interactive cards with clickable buttons. Interaction: Click to answer, buttons change color (green/red) to show correctness, then become disabled. A donut chart (Chart.js) dynamically tracks score. Justification: This provides an engaging, game-like experience with a clear feedback loop.
+        - Free Response Problems -> Goal: Practice multi-step problem solving -> Method: Cards with input fields and hidden solution divs. Interaction: User types answer, clicks a button to check, or clicks another button to reveal a step-by-step solution. Justification: Encourages active problem-solving attempts before providing help, which is more effective for learning complex concepts.
+        - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            margin: auto;
+        }
+        .solution {
+            background-color: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
 </head>
-<body>
-    <div class="fireworks-container"></div>
+<body class="bg-stone-50 text-stone-800">
 
-    <div class="container">
-        <div class="card">
-            <div class="profile-header">
-                <img src="https://i.imgur.com/nJDcF9x.png" alt="Ảnh đại diện Kawaii" class="profile-avatar">
-                <h1 class="profile-name">Tên của bạn ở đây!</h1>
-                <p class="profile-bio">Mình là một người rất yêu thích anime, manga và những điều dễ thương. Rất vui được làm quen với mọi người! 🥰</p>
-            </div>
-            <div class="profile-body">
-                <h2>💖 Sở thích của mình</h2>
-                <ul>
-                    <li>Xem anime và đọc manga</li>
-                    <li>Vẽ tranh chibi</li>
-                    <li>Nghe nhạc J-pop</li>
-                    <li>Chơi game và làm bánh</li>
-                </ul>
-            </div>
-            <div class="loli-dancing">
-                <img src="https://i.imgur.com/4AiXzf8.png" alt="Loli 1" class="loli-char loli-1">
-                <img src="https://i.imgur.com/T6XfKFE.png" alt="Loli 2" class="loli-char loli-2">
-                <img src="https://i.imgur.com/x2D95fA.png" alt="Loli 3" class="loli-char loli-3">
-            </div>
-            <div class="profile-body">
-                <h2>✨ Liên hệ với mình</h2>
-                <div class="social-links">
-                    <a href="#" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram" class="social-icon">
-                    </a>
-                    <a href="#" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Facebook_icon_%28black%29.svg" alt="Facebook" class="social-icon">
-                    </a>
-                    <a href="#" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Logo_of_Twitter.svg" alt="Twitter" class="social-icon">
-                    </a>
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-sky-700">Bài ôn tập Toán lớp 5</h1>
+            <p class="mt-2 text-stone-600">Cùng luyện tập và củng cố kiến thức nhé!</p>
+        </header>
+
+        <main>
+            <section id="trac-nghiem" class="mb-12">
+                <h2 class="text-2xl font-bold mb-2 text-center text-sky-600">I. Luyện tập Trắc nghiệm</h2>
+                <p class="text-center text-stone-600 mb-6 max-w-2xl mx-auto">Hãy cùng kiểm tra kiến thức nền tảng của bạn qua các câu hỏi trắc nghiệm sau. Chọn đáp án bạn cho là đúng và xem kết quả ngay lập tức!</p>
+                
+                <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-lg mb-8">
+                    <h3 class="text-xl font-semibold text-center mb-4">Kết quả của bạn</h3>
+                    <div class="chart-container">
+                        <canvas id="quiz-chart"></canvas>
+                    </div>
                 </div>
-            </div>
-        </div>
+
+                <div id="questions-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
+            </section>
+
+            <section id="tu-luan">
+                <h2 class="text-2xl font-bold mb-2 text-center text-sky-600">II. Thử sức với Tự luận</h2>
+                <p class="text-center text-stone-600 mb-6 max-w-2xl mx-auto">Bây giờ, hãy thử sức với các bài toán cần trình bày lời giải. Nhập câu trả lời của bạn và kiểm tra, hoặc xem hướng dẫn chi tiết nếu bạn gặp khó khăn.</p>
+                <div id="problems-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-6 border-t border-stone-200">
+            <p class="text-stone-500">&copy; 2025 - Tạo bởi AI cho mục đích học tập.</p>
+        </footer>
     </div>
+
+    <script>
+        const quizData = [
+            { question: "Số có chữ số 6 ở hàng phần trăm là:", options: ["6,43", "0,683", "2,068", "0,006"], correct: 2 },
+            { question: "1/4 giờ = ….. phút. Số thích hợp cần điền vào chỗ chấm là:", options: ["15", "25", "35", "40"], correct: 0 },
+            { question: "Chu vi của hình tròn có bán kính 8cm là:", options: ["12,56cm", "200,96cm", "25,12cm", "50,24cm"], correct: 3 },
+            { question: "Thể tích của hình lập phương có cạnh 9dm là:", options: ["81dm²", "81dm³", "729dm³", "729dm²"], correct: 2 },
+            { question: "Tỉ số phần trăm của 175 và 125 là:", options: ["1,4%", "14%", "140%", "50%"], correct: 2 },
+            { question: "Một hình hộp chữ nhật có chiều dài 6cm, chiều rộng 4,5cm và chiều cao 0,7dm. Diện tích xung quanh của hình hộp chữ nhật đó là :", options: ["147cm²", "147dm²", "147,cm²", "14,7dm²"], correct: 0 },
+            { question: "Một người đi xe máy hết quãng đường 125km trong thời gian 2 giờ 30 phút. Vận tốc của người đi xe máy đó là :", options: ["40 km/giờ", "45 km/giờ", "50 km/giờ", "55 km/giờ"], correct: 2 },
+            { question: "Giá bìa của một cuốn sách là 20 000 đồng. Nhân dịp khai trương, cửa hàng đã giảm giá xuống còn 16 000 đồng. Cửa hàng đã giảm số phần trăm giá sách là :", options: ["20%", "25%", "30%", "40%"], correct: 0 }
+        ];
+
+        const problemsData = [
+            { 
+                title: "Bài 1: Đặt tính rồi tính",
+                parts: [
+                    { question: "a) 162,78 + 73,83", answer: "236.61", solution: "162,78 + 73,83 = 236,61" },
+                    { question: "b) 208 – 123,25", answer: "84.75", solution: "208 – 123,25 = 84,75" },
+                    { question: "c) 22,56 x 6", answer: "135.36", solution: "22,56 x 6 = 135,36" },
+                    { question: "d) 125,76 : 1,6", answer: "78.6", solution: "125,76 : 1,6 = 78,6" }
+                ]
+            },
+            {
+                title: "Bài 2: Tìm x",
+                parts: [
+                    { question: "a) 3,5 x x = 48,56 – 39,46", answer: "2.6", solution: "3,5 x x = 9,1<br>x = 9,1 : 3,5<br>x = 2,6" },
+                    { question: "b) 1089 : x = 6,685 – 3,56", answer: "348.48", solution: "1089 : x = 3,125<br>x = 1089 : 3,125<br>x = 348,48" }
+                ]
+            },
+            {
+                title: "Bài 3: Bài toán vận tốc",
+                question: "Hai người cùng khởi hành từ A và B cách nhau 62,4km. Người thứ nhất đi từ A đến B, người thứ hai đi từ B về A. Sau 2 giờ 24 phút thì hai người gặp nhau. Tính vận tốc của mỗi người, biết vận tốc của người thứ nhất nhỏ hơn vận tốc của người thứ hai là 3 km/giờ.",
+                answer: "11.5 và 14.5",
+                solution: "Đổi: 2 giờ 24 phút = 2,4 giờ.<br>Tổng vận tốc hai người: 62,4 : 2,4 = 26 (km/giờ).<br>Vận tốc người thứ hai: (26 + 3) : 2 = 14,5 (km/giờ).<br>Vận tốc người thứ nhất: 14,5 - 3 = 11,5 (km/giờ).<br>Đáp số: Người 1: 11,5 km/giờ, Người 2: 14,5 km/giờ."
+            },
+            {
+                title: "Bài 4: Bài toán hình thang",
+                question: "Một mảnh vườn hình thang có đáy bé 36m, đáy lớn 52m. Nếu đáy lớn tăng thêm 4m thì diện tích mảnh vườn tăng thêm 60m². Tính diện tích mảnh vườn hình thang đó.",
+                answer: "1320",
+                solution: "Phần diện tích tăng thêm là một hình tam giác có đáy 4m và diện tích 60m².<br>Chiều cao của hình tam giác (cũng là chiều cao hình thang) là: (60 x 2) : 4 = 30 (m).<br>Diện tích mảnh vườn hình thang là: (36 + 52) x 30 : 2 = 1320 (m²).<br>Đáp số: 1320 m²."
+            }
+        ];
+
+        const questionsContainer = document.getElementById('questions-container');
+        const problemsContainer = document.getElementById('problems-container');
+        let score = { correct: 0, incorrect: 0, unanswered: quizData.length };
+        let quizChart;
+
+        function renderQuestions() {
+            quizData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md transition-all duration-300';
+                
+                let optionsHtml = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">';
+                item.options.forEach((opt, optIndex) => {
+                    optionsHtml += `<button data-q="${index}" data-opt="${optIndex}" class="option-btn text-left p-3 bg-stone-100 hover:bg-sky-100 rounded-md transition-colors duration-200">${String.fromCharCode(65 + optIndex)}. ${opt}</button>`;
+                });
+                optionsHtml += '</div>';
+
+                card.innerHTML = `
+                    <p class="font-semibold">Câu ${index + 1}: ${item.question}</p>
+                    ${optionsHtml}
+                `;
+                questionsContainer.appendChild(card);
+            });
+        }
+
+        function checkAnswer(e) {
+            if (!e.target.classList.contains('option-btn')) return;
+            
+            const questionIndex = e.target.dataset.q;
+            const selectedOption = parseInt(e.target.dataset.opt);
+            const questionData = quizData[questionIndex];
+            const optionButtons = document.querySelectorAll(`button[data-q='${questionIndex}']`);
+
+            if (e.target.disabled) return;
+
+            if (selectedOption === questionData.correct) {
+                e.target.classList.remove('bg-stone-100', 'hover:bg-sky-100');
+                e.target.classList.add('bg-green-500', 'text-white');
+                score.correct++;
+            } else {
+                e.target.classList.remove('bg-stone-100', 'hover:bg-sky-100');
+                e.target.classList.add('bg-red-500', 'text-white');
+                optionButtons[questionData.correct].classList.add('!bg-green-500', 'text-white');
+                score.incorrect++;
+            }
+            score.unanswered--;
+
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+
+            updateChart();
+        }
+
+        function renderChart() {
+            const ctx = document.getElementById('quiz-chart').getContext('2d');
+            quizChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Đúng', 'Sai', 'Chưa trả lời'],
+                    datasets: [{
+                        label: 'Kết quả',
+                        data: [score.correct, score.incorrect, score.unanswered],
+                        backgroundColor: [
+                            'rgb(34, 197, 94)',
+                            'rgb(239, 68, 68)',
+                            'rgb(231, 229, 228)'
+                        ],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed !== null) {
+                                        label += context.parsed;
+                                    }
+                                    return label + ' câu';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart() {
+            quizChart.data.datasets[0].data = [score.correct, score.incorrect, score.unanswered];
+            quizChart.update();
+        }
+
+        function renderProblems() {
+            problemsData.forEach((problem, index) => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-lg shadow-md';
+                
+                let contentHtml = `<h3 class="text-lg font-bold mb-3">${problem.title}</h3>`;
+
+                if (problem.parts) {
+                    problem.parts.forEach((part, partIndex) => {
+                        contentHtml += `
+                            <div class="mb-4 border-t pt-4">
+                                <p class="font-semibold">${part.question}</p>
+                                <div class="flex flex-col sm:flex-row gap-2 mt-2">
+                                    <input type="text" id="problem-${index}-${partIndex}-input" placeholder="Nhập đáp án của bạn" class="flex-grow p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-sky-300 focus:outline-none">
+                                    <button class="check-btn bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-sky-600 transition-colors" data-p-idx="${index}" data-sp-idx="${partIndex}">Kiểm tra</button>
+                                </div>
+                                <div id="feedback-${index}-${partIndex}" class="mt-2 text-sm font-medium"></div>
+                                <button class="solution-btn text-sm text-sky-600 hover:underline mt-2" data-p-idx="${index}" data-sp-idx="${partIndex}">Xem lời giải</button>
+                                <div id="solution-${index}-${partIndex}" class="solution hidden">
+                                    <p class="font-semibold">Lời giải:</p>
+                                    <p>${part.solution}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                     contentHtml += `
+                        <div class="mb-4">
+                            <p>${problem.question}</p>
+                            <div class="flex flex-col sm:flex-row gap-2 mt-2">
+                                <input type="text" id="problem-${index}-input" placeholder="Nhập đáp án của bạn" class="flex-grow p-2 border border-stone-300 rounded-md focus:ring-2 focus:ring-sky-300 focus:outline-none">
+                                <button class="check-btn bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-sky-600 transition-colors" data-p-idx="${index}">Kiểm tra</button>
+                            </div>
+                            <div id="feedback-${index}" class="mt-2 text-sm font-medium"></div>
+                            <button class="solution-btn text-sm text-sky-600 hover:underline mt-2" data-p-idx="${index}">Xem lời giải</button>
+                            <div id="solution-${index}" class="solution hidden">
+                                <p class="font-semibold">Lời giải:</p>
+                                <p>${problem.solution}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = contentHtml;
+                problemsContainer.appendChild(card);
+            });
+        }
+        
+        function handleProblemInteraction(e) {
+            const target = e.target;
+            const pIdx = target.dataset.pIdx;
+            const spIdx = target.dataset.spIdx;
+
+            if (target.classList.contains('check-btn')) {
+                const problem = problemsData[pIdx];
+                const part = spIdx !== undefined ? problem.parts[spIdx] : problem;
+                const inputId = spIdx !== undefined ? `problem-${pIdx}-${spIdx}-input` : `problem-${pIdx}-input`;
+                const feedbackId = spIdx !== undefined ? `feedback-${pIdx}-${spIdx}` : `feedback-${pIdx}`;
+                
+                const userInput = document.getElementById(inputId).value.trim().replace(',', '.');
+                const feedbackEl = document.getElementById(feedbackId);
+
+                if (userInput === part.answer) {
+                    feedbackEl.textContent = 'Chính xác! Giỏi quá!';
+                    feedbackEl.className = 'mt-2 text-sm font-medium text-green-600';
+                } else {
+                    feedbackEl.textContent = 'Chưa đúng rồi. Thử lại nhé!';
+                    feedbackEl.className = 'mt-2 text-sm font-medium text-red-600';
+                }
+            }
+
+            if (target.classList.contains('solution-btn')) {
+                const solutionId = spIdx !== undefined ? `solution-${pIdx}-${spIdx}` : `solution-${pIdx}`;
+                const solutionEl = document.getElementById(solutionId);
+                solutionEl.classList.toggle('hidden');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderQuestions();
+            renderChart();
+            renderProblems();
+            questionsContainer.addEventListener('click', checkAnswer);
+            problemsContainer.addEventListener('click', handleProblemInteraction);
+        });
+    </script>
+
 </body>
 </html>
